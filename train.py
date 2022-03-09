@@ -40,7 +40,7 @@ print('genome sequence assembly is loaded...')
 methylations, num_to_chr_dic = data_reader.get_methylations(args.methylation_file,  args.coverage_threshold, context=args.context)
 print('methylation level is loaded for ' + args.context + ' context ...')
 if include_annot:
-    annot_df = data_reader.read_annot(args.include_annotation)
+    annot_df = data_reader.read_annot(args.annotation_file)
     annot_seqs_onehot = []
     annot_tag = ''
     annot_types = preprocess.get_annot_types(annot_df)
