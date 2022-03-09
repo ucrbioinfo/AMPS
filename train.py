@@ -10,9 +10,10 @@ from tensorflow.keras.layers import Activation,Dense
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Reshape
 
-
-os.makedirs('./dump_files/')
-os.makedirs('./models/')
+if not os.path.exists('./dump_files/'):
+    os.makedirs('./dump_files/')
+if not os.path.exists('./models/'):
+    os.makedirs('./models/')
 parser = argparse.ArgumentParser(description='This is a demo script by nixCraft.')
 
 parser.add_argument('-m', '--methylation_file', help='methylation file address', required=True)
