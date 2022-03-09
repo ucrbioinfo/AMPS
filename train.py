@@ -77,6 +77,8 @@ step = args.train_size
 if ds_size * 2 < step:
     step = (ds_size * 2) - 2
 print('start fitting ...')
+print(step, args.memory_chunk_size)
+gpu_available = tf.test.is_gpu_available()
 for chunk in range(0, int(step/2), args.memory_chunk_size):
     if chunk+args.memory_chunk_size > int(step/2):
         sample_set = methylated_train[chunk:int(step/2)]+unmethylated_train[chunk:int(step/2)]
@@ -87,16 +89,15 @@ for chunk in range(0, int(step/2), args.memory_chunk_size):
     X, Y = pg.data_preprocess(profiles, targets, include_annot=include_annot)
     x_train, x_val, y_train, y_val = pg.split_data(X, Y, pcnt=0.1)
     x_train_sz += len(x_train)
-    gpu_available = tf.test.is_gpu_available()
     if gpu_available:
         with tf.device('/device:GPU:0'):
             model.fit(x_train, y_train, batch_size=32, epochs=45, verbose=0, validation_data=(x_val, y_val))
     else:
         model.fit(x_train, y_train, batch_size=32, epochs=45, verbose=0, validation_data=(x_val, y_val))
     del x_train, y_train
-    ia_tag = ''
-    if include_annot:
-        ia_tag = 'annot'
-    model_tag = str(organism_name) + str(args.context) + ia_tag + '.mdl'
-    print('model_saved in ./models directory with name:' + model_tag)
-    model.save('./models/' + model_tag)
+ia_tag = ''
+if include_annot:
+    ia_tag = 'annot'
+model_tag = str(organism_name) + str(args.context) + ia_tag + '.mdl'
+print('model_saved in ./models directory with name:' + model_tag)
+model.save('./models/' + model_tag)
