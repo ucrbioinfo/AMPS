@@ -1,21 +1,8 @@
-import compatibility as compatibility
-import configs as configs
-import numpy as np
-import data_reader as data_reader
-import preprocess as preprocess
-import random
-import os
 from datetime import datetime
-import tensorflow as tf
 import numpy as np
 import pandas as pd
-from tensorflow import keras
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.layers import Activation,Dense
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Reshape
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, f1_score, precision_score, recall_score
-from os import path
+
 
 
 #This method gets for an organism and context, mekes
