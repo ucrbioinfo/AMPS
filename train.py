@@ -37,9 +37,8 @@ if include_annot and len(args.annotation_file) == 0:
 organism_name = args.organism_name
 sequences = data_reader.readfasta(args.genome_assembly_file)
 print('genome sequence assembly is loaded...')
-print(args.context)
-methylations, num_to_chr_dic = data_reader.get_methylations(args.methylation_file, str(args.context), args.coverage_threshold)
-print('methylation level is loaded...')
+methylations, num_to_chr_dic = data_reader.get_methylations(args.methylation_file,  args.coverage_threshold, context=args.context)
+print('methylation level is loaded for ' + args.context + ' context ...')
 if include_annot:
     annot_df = data_reader.read_annot(args.include_annotation)
     annot_seqs_onehot = []
