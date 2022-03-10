@@ -2,6 +2,8 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
+import random
+import preprocess.preprocess as preprocess
 
 
 
@@ -34,6 +36,11 @@ def get_profiles(methylations, sample_set, sequences_onehot, annot_seqs_onehot, 
         print(str(boundary_cytosines) + ' boundary cytosines are ignored')
         print(datetime.now())
     return profiles, targets
+
+def test_sampler(methylations_test, sequences_onehot, annot_seqs_onehot, window_size, num_to_chr_dic, include_annot=False):
+    test_profiles, test_targets = get_profiles(methylations_test, range(len(methylations_test)), sequences_onehot, annot_seqs_onehot, num_to_chr_dic, window_size=window_size)
+    x_test, y_test = data_preprocess(test_profiles, test_targets, include_annot=include_annot)
+    return x_test, y_test
 
 
 
