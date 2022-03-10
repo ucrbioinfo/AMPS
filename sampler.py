@@ -5,8 +5,8 @@ import preprocess.data_reader as dr
 parser = argparse.ArgumentParser(description='AMPS')
 
 parser.add_argument('-m', '--methylation_file', help='methylation file address', required=True)
-parser.add_argument('-s', '-size', help='size of sample', required=True, type=int)
-parser.add_argument('-o', '--output_address', help='output address', required=True)
+parser.add_argument('-s', '--size', help='size of sample', required=True, type=int)
+parser.add_argument('-o', '--output_address and file name', help='output address', required=True)
 
 
 def methylation_sampler(methylation_address, size, address):
