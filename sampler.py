@@ -11,7 +11,7 @@ parser.add_argument('-c', '--context', help='context', required=True)
 
 
 def methylation_sampler(methylation_address, size, address, context):
-     methylations = dr.read_methylations(methylation_address)
+     methylations = dr.read_methylations(methylation_address, context)
      methylations.sample(n=size, random_state=1).to_csv(address, header=None, index=None, sep=' ', mode='a')
 
 args = parser.parse_args()
