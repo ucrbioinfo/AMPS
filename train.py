@@ -14,7 +14,7 @@ if not os.path.exists('./dump_files/'):
     os.makedirs('./dump_files/')
 if not os.path.exists('./models/'):
     os.makedirs('./models/')
-parser = argparse.ArgumentParser(description='This is a demo script by nixCraft.')
+parser = argparse.ArgumentParser(description='AMPS')
 
 parser.add_argument('-m', '--methylation_file', help='methylation file address', required=True)
 parser.add_argument('-g', '--genome_assembly_file', help='genome sequence file address, must be in fasta format', required=True)

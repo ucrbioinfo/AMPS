@@ -129,6 +129,7 @@ def convert_assembely_to_onehot(organism_name, sequences, from_file=False):
     return one_hots
 
 
+
 def methylations_subseter(methylations, window_size):
     methylations['m_idx'] = range(len(methylations))
     methylations_subset = methylations[methylations['position'] > window_size * 10]

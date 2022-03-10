@@ -25,7 +25,7 @@ parser.add_argument('-g', '--genome_assembly_file', help='genome sequence file a
 parser.add_argument('-c', '--context', help='context', required=True)
 parser.add_argument('-a', '--annotation_file', help='annotation file', required=False)
 parser.add_argument('-ia', '--include_annotation', help='does the predictor include the annotation in the input? True/False, It has to be similar to training dataset', required=False, default=False)
-parser.add_argument('-tr', '--test_size', help='testing dataset size, number of inputs for training', required=False, default=50000, type=int)
+parser.add_argument('-te', '--test_size', help='testing dataset size, number of inputs for training', required=False, default=50000, type=int)
 parser.add_argument('-ws', '--window_size', help='window size, number of including nucleutides in a window. It has to be similar to the training set window-size', required=False, default=3200, type=int)
 parser.add_argument('-ct', '--coverage_threshold', help='coverage_threshold, minimum number of reads for including a cytosine in the training dataset', required=False, default=10, type=int)
 parser.add_argument('-on', '--organism_name', help='Organism name, for saving the files...', required=False, default='sample_organism')
