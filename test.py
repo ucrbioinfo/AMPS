@@ -7,9 +7,6 @@ import profile_generator as pg
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
-from tensorflow.keras.layers import Activation,Dense
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Reshape
 
 if not os.path.exists('./dump_files/'):
     os.makedirs('./dump_files/')
@@ -67,4 +64,5 @@ x_test, y_test = pg.data_preprocess(test_profiles, test_targets, include_annot=i
 
 y_pred = model.predict(x_test)
 
-np.save('./output/' + organism_name+'_' + args.context + '.npy', y_pred)
+np.save('./output/' + organism_name+'_' + args.context + '.npy', y_pred.round())
+print('results saved in ./output/'+ organism_name+'_' + args.context + '.npy')
