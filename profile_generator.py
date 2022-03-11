@@ -5,9 +5,6 @@ from sklearn.model_selection import train_test_split
 import random
 import preprocess.preprocess as preprocess
 
-
-
-#This method gets for an organism and context, mekes
 def get_profiles(methylations, sample_set, sequences_onehot, annot_seqs_onehot, num_to_chr_dic, window_size=3200):
     log = len(sample_set) > 50000
     log = False

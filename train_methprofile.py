@@ -1,15 +1,10 @@
 import argparse
 import preprocess.data_reader as data_reader
-import preprocess.preprocess as preprocess
 import os
-import random
-import profile_generator as pg
-import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.layers import Activation,Dense
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Reshape
-import numpy as np
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.optimizers import SGD
 import meth_profiler as mp
@@ -21,7 +16,6 @@ if not os.path.exists('./models/'):
 parser = argparse.ArgumentParser(description='AMPS')
 
 parser.add_argument('-m', '--methylation_file', help='methylation file address', required=True)
-parser.add_argument('-g', '--genome_assembly_file', help='genome sequence file address, must be in fasta format', required=True)
 parser.add_argument('-c', '--context', help='context', required=True)
 parser.add_argument('-tr', '--train_size', help='training dataset size, number of inputs for training', required=False, default=500000, type=int)
 parser.add_argument('-ws', '--window_size', help='window size, number of including nucleutides in a window.', required=False, default=3200, type=int)
