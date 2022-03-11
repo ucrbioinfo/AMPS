@@ -42,7 +42,6 @@ print('methylation level is loaded for ' + args.context + ' context ...')
 annot_seqs_onehot = []
 if include_annot:
     annot_df = data_reader.read_annot(args.annotation_file)
-    annot_seqs_onehot = []
     annot_tag = ''
     annot_types = preprocess.get_annot_types(annot_df)
     print('list of annotated functional elements:' + str(annot_types))
