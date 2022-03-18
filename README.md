@@ -14,9 +14,12 @@ AMPS is a python tool for context-specific DNA methylation prediction using a de
 ### Mapping WGBS data
 If you have the WGBS reads, you should first get to the mapping process. The file mapping_scripts.txt shows a sample for the steps:
 
-1. check the quality of the reads
-2. trim the reads with low quality
-3. mapp the reads using Bismark
+1. Check the quality of the reads
+2. Trim the reads with low quality
+3. Map the reads using Bismark
+ - Prepare genome
+ - Map the reads
+ - genome-wide methylation extractor
 
 ## Inputs
 
