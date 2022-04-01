@@ -55,19 +55,30 @@ This module will train a model and save it in the ./models/ directory. The saved
 
 1. <code> -m, --methylation_file: methylation file address, required</code>
 2. <code> -mdl, --model_address: trained model address, required</code>
-3. <code> -c, --context: context, required</code>
+3. <code> -g, --genome_assembly_file: genome sequence file address, must be in fasta format, required</code>
 4. <code> -a, --annotation_file: annotation file address</code>
 5. <code> -ia, --include_annotation: does the predictor include the annotation in the input? True/False</code>
-6. <code> -te, --test_size: testing dataset size, number of inputs for testing</code>
-7. <code> -ws, --window_size: window size, number of including nucleutides in a window</code>
-8. <code> -ct, --coverage_threshold: minimum number of reads for including a cytosine in the training/testing dataset</code>
-9. <code> -on, --organism_name: sample name, for saving the files</code>
+6. <code> -ws, --window_size: window size, number of including nucleutides in a window</code>
+7. <code> -on, --organism_name: sample name, for saving the files</code>
 
 As a sample you can run:
 
-<code>python test.py -mdl ./models/sample_organismCG.mdl/ -m ./sample/sample_methylations_test.txt -g ./sample/sample_seq.fasta -a ./sample/sample_annotation.txt -c CG</code>
+<code>python test.py -mdl ./models/sample_organismCG.mdl/ -m ./sample/sample_methylations_test.txt -g ./sample/sample_seq.fasta -a ./sample/sample_annotation.txt</code>
 
 The output is a text file containing a binary vector saved in <code> ./output/ </code> folder.
+
+For calculating the accuracy, you can use <code> accuracy_clc.py </code> module. It gets the predicted binary vectory and either a methylation file or another binary vector. If a methylation file is provided in the input, the module calculates the methylation status of each cytosine in the methylation file and then compare it with the predicted binary vector. Else two binary vectors are compared together. The accuracy is the number of correct prediction over all the test size.
+
+Module options:
+
+1. <code> -pr, --y_predicted: address to the predicted binary vector file, required</code>
+2. <code> -te, --y_true: address to true methylation status binary vector file</code>
+3. <code> -m, --methylation_file: address to true methylation file address</code>
+
+
+sample code:
+
+<code>python accuracy_clc.py -pr ./output/sample_organism.txt -m ./sample/sample_methylations_test.txt</code>
 
 ### Methylation-profile based
 
