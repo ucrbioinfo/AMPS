@@ -36,17 +36,19 @@ AMPS uses three inputs:
 1. <code> -m, --methylation_file: methylation file address, required</code>
 2. <code> -g, --genome_assembly_file: genome sequence file address, must be in fasta format, required</code>
 3. <code> -c, --context: context, required</code>
-4. <code> -a, --annotation_file: annotation file address</code>
-5. <code> -ia, --include_annotation: does the predictor include the annotation in the input? True/False</code>
-6. <code> -tr, --train_size: training dataset size, number of inputs for training</code>
-7. <code> -ws, --window_size: window size, number of including nucleutides in a window</code>
-8. <code> -ct, --coverage_threshold: minimum number of reads for including a cytosine in the training/testing dataset</code>
-9. <code> -on, --organism_name: sample name, for saving the files</code>
-10. <code> -mcs, --memory_chunk_size: number of inputs in each memory load</code>
+4. <code> -ga, --gene_file: gene annotation file address</code>
+5. <code> -ra, --repeat_file: repeat annotation file address</code>
+6. <code> -iga, --include_gene: does the predictor include the gene annotation in the input? True/False</code>
+7. <code> -ira, --include_repeat: does the predictor include the repeat annotation in the input? True/False</code>
+8. <code> -tr, --train_size: training dataset size, number of inputs for training</code>
+9. <code> -ws, --window_size: window size, number of including nucleutides in a window</code>
+10. <code> -ct, --coverage_threshold: minimum number of reads for including a cytosine in the training/testing dataset</code>
+11. <code> -on, --organism_name: sample name, for saving the files</code>
+12. <code> -mcs, --memory_chunk_size: number of inputs in each memory load</code>
 
 As a sample you can run:
 
-<code>python train.py -m ./sample/sample_methylations_train.txt -g ./sample/sample_seq.fasta -a ./sample/sample_annotation.txt -c CG</code>
+<code>python train.py -m ./sample/sample_methylations_train.txt -g ./sample/sample_seq.fasta -ga ./sample/sample_gene_annotation.txt -ra ./sample/sample_repeat_annotation.txt -c CG</code>
 
 This module will train a model and save it in the ./models/ directory. The saved model can be loaded and used for the desired set of cytosines. For using the model <code> test.py </code> should be used.
 
@@ -56,14 +58,16 @@ This module will train a model and save it in the ./models/ directory. The saved
 1. <code> -m, --methylation_file: methylation file address, required</code>
 2. <code> -mdl, --model_address: trained model address, required</code>
 3. <code> -g, --genome_assembly_file: genome sequence file address, must be in fasta format, required</code>
-4. <code> -a, --annotation_file: annotation file address</code>
-5. <code> -ia, --include_annotation: does the predictor include the annotation in the input? True/False</code>
-6. <code> -ws, --window_size: window size, number of including nucleutides in a window</code>
-7. <code> -on, --organism_name: sample name, for saving the files</code>
+4. <code> -ga, --gene_file: gene annotation file address</code>
+5. <code> -ra, --repeat_file: repeat annotation file address</code>
+6. <code> -iga, --include_gene: does the predictor include the gene annotation in the input? True/False</code>
+7. <code> -ira, --include_repeat: does the predictor include the repeat annotation in the input? True/False</code>
+8. <code> -ws, --window_size: window size, number of including nucleutides in a window</code>
+9. <code> -on, --organism_name: sample name, for saving the files</code>
 
 As a sample you can run:
 
-<code>python test.py -mdl ./models/sample_organismCG.mdl/ -m ./sample/sample_methylations_test.txt -g ./sample/sample_seq.fasta -a ./sample/sample_annotation.txt</code>
+<code>python test.py -mdl ./models/sample_organismCG.mdl/ -m ./sample/sample_methylations_test.txt -g ./sample/sample_seq.fasta -ga ./sample/sample_gene_annotation.txt -ra ./sample/sample_repeat_annotation.txt</code>
 
 The output is a text file containing a binary vector saved in <code> ./output/ </code> folder.
 
