@@ -34,7 +34,7 @@ def get_methylations(address, coverage_threshold, context=None):
     return methylations, num_to_chr_dic
 
 def read_methylations(address, context, coverage_threshold = 10):
-    methylations = pd.read_table(address)
+    methylations = pd.read_table(address, header=None)
     methylations.columns = ['chr', 'position', 'strand', 'meth', 'unmeth', 'context', 'three']
     methylations.drop(['three'], axis=1)
     if len(context) != 0:
