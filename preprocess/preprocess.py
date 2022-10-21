@@ -20,7 +20,7 @@ def get_annot_types(annot_df):
     return functional_elements
 
 
-def make_annotseq_dic(organism_name, annot_tag, annot_subset_df, sequences, from_file=False):
+def make_annotseq_dic(organism_name, annot_tag, annot_subset_df, sequences, from_file=False, strand_spec=True):
     fn = './dump_files/' + organism_name + '_' + annot_tag+'_annot_seqs.pkl'
     if from_file and path.exists(fn):
         return load_dic(fn)
@@ -31,14 +31,17 @@ def make_annotseq_dic(organism_name, annot_tag, annot_subset_df, sequences, from
         annot_seq_n = np.zeros((len(sequences[chr]), 1), dtype='short')
         annot_df_chr_subset = annot_subset_df[annot_subset_df['chr'] == chr]
         for index, row in annot_df_chr_subset.iterrows():
-            if row['strand'] == '+':
+            if row['strand'] == '+' or not strand_spec:
                 annot_seq_p[int(row['start'] - 1): int(row['end'] - 1)] = 1
             else:
                 annot_seq_n[int(row['start'] - 1): int(row['end'] - 1)] = 1
-            if count % int(len(annot_subset_df)/20) == 0:
-                print('making annotation sequence ... '+str(int(count * 100/len(annot_subset_df))) + '%')
+            if count % int(len(annot_subset_df)/10) == 0:
+                print(str(int(count * 100/len(annot_subset_df))) + '%')
             count += 1
-        annot_seqs[chr] = np.concatenate([annot_seq_p, annot_seq_n], axis=1)
+        if strand_spec:
+            annot_seqs[chr] = np.concatenate([annot_seq_p, annot_seq_n], axis=1)
+        else:
+            annot_seqs[chr] = annot_seq_p
     save_dic(fn, annot_seqs)
     return annot_seqs
 
