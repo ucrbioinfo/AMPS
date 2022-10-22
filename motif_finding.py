@@ -20,8 +20,8 @@ args = parser.parse_args()
 
 model = keras.models.load_model(args.model_address)
 seqs_oh = preprocess.convert_fasta_file_to_onehot(data_reader.readfasta(args.sequence_file))
-motif_analysis.save_motif_fasta_files(model, seqs_oh, args.motif_size, args.output)
-
+motif_analysis.save_motif_fasta_files(model, seqs_oh, args.motif_size, './motifs/' + args.output)
+print('Motifs were saved to ./motifs/' + args.output)
 
 
 
