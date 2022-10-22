@@ -1,6 +1,6 @@
 # AMPS
 
-AMPS is a python tool for context-specific DNA methylation prediction using a deep neural network. The prediction can be based on the sequence, sequence+annotation or methylation level of neighboring Cytosines.
+AMPS is a python tool for context-specific DNA methylation prediction using a deep neural network. The prediction can be based on the sequence, sequence+annotation, or methylation level of neighboring Cytosines.
 
 ## Dependencies
 
@@ -25,8 +25,8 @@ If you have the WGBS reads, you should first get to the mapping process. The fil
 
 AMPS uses three inputs: 
 + DNA Sequence, which should be in Fasta format
-+ Methylations, which contains the methylation and context information of cytosines. This file is based on the output of methylation extractor of [Bismark](https://github.com/FelixKrueger/Bismark/tree/master/Docs#optional-genome-wide-cytosine-report-output "wgbs mapping tool") <p><code>chromosome position strand count-methylated count-unmethylated C-context trinucleotide-context</code></p>
-+ annotaions, Which is a table containing the annotated functiona element coordination and must be in GF3 format.
++ Methylations, which contains the methylation and context information of cytosines. This file is based on the output of the methylation extractor of [Bismark](https://github.com/FelixKrueger/Bismark/tree/master/Docs#optional-genome-wide-cytosine-report-output "wgbs mapping tool") <p><code>chromosome position strand count-methylated count-unmethylated C-context trinucleotide-context</code></p>
++ Annotaions, Which is a table containing the annotated function element or repeat coordinations and must be in GFF3 format.
 
 
 ### Sequence based
@@ -41,7 +41,7 @@ AMPS uses three inputs:
 6. <code> -iga, --include_gene: does the predictor include the gene annotation in the input? True/False</code>
 7. <code> -ira, --include_repeat: does the predictor include the repeat annotation in the input? True/False</code>
 8. <code> -tr, --train_size: training dataset size, number of inputs for training</code>
-9. <code> -ws, --window_size: window size, number of including nucleutides in a window</code>
+9. <code> -ws, --window_size: window size, number of including nucleotides in a window</code>
 10. <code> -ct, --coverage_threshold: minimum number of reads for including a cytosine in the training/testing dataset</code>
 11. <code> -on, --organism_name: sample name, for saving the files</code>
 12. <code> -mcs, --memory_chunk_size: number of inputs in each memory load</code>
