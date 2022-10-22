@@ -109,7 +109,7 @@ The output is a text file containing a binary vector saved in <code> ./output/ <
 
 ### Motif Finding
 
-The interpretablity of the module is implemented by <code> motif_finding.py <\code> module. This module gets a pre-trained model and a number of sequences in a fasta file and writes out a file which contains the important part of each sequence. The output file is in .fasta format and will be saved in <code> ./motifs/ <\code> directory. This module uses Grad-CAM for finding the activation map vector. After calculating the activation map it selects the most important sub-sequence by sliding a window of length fifty along the input, and reporting the window with the highest average of activation map vector. You can give the output of this module to MEME and TOMTOM for finding important motifs matching in the motif Databases
+The interpretablity of the module is implemented by <code> motif_finding.py </code> module. This module gets a pre-trained model and a number of sequences in a fasta file and writes out a file which contains the important part of each sequence. The output file is in .fasta format and will be saved in <code> ./motifs/ </code> directory. This module uses Grad-CAM for finding the activation map vector. After calculating the activation map it selects the most important sub-sequence by sliding a window of length fifty along the input, and reporting the window with the highest average of activation map vector. You can give the output of this module to MEME and TOMTOM for finding important motifs matching in the motif Databases
   
 1. <code> -mdl, --model_address: trained model address, required</code>
 2. <code> -seqs, --sequence_file: fasta file containing the sequences which you want to find the motifs in them., required</code>
@@ -118,7 +118,7 @@ The interpretablity of the module is implemented by <code> motif_finding.py <\co
   
   As a sample you can run this over a sample of sequences provided in this repository:
   
-  <code>python motif_finding.py -mdl ./models/sample_organismCG.mdl -seqs ./sample/motif_input_sample.fa<\code>
+  <code>python motif_finding.py -mdl ./models/sample_organismCG.mdl -seqs ./sample/motif_input_sample.fa</code>
   
   
 
