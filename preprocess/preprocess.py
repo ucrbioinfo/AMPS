@@ -121,6 +121,34 @@ def convert_seq_to_onehot(seq):
     res = np.concatenate([As, Cs, Gs, Ts], axis=1)
     return res
 
+def convert_fasta_file_to_onehot(seqs_fn):
+    seqs = data_reader.readfasta(seqs_fn)
+    lens = map(len, seqs.values())
+    if len(set(lens)) != 1:
+        raise Exception('All sequences in the input set must have the same length')
+    if len(seqs) == 0:
+        raise Exception('sequences file is empty')
+    res = np.zeros((len(seqs), len(seqs[list(seqs.keys)[0]]), 4, 1))
+    cntr = 0
+    for seq in seqs.values():
+        ohe = preprocess.convert_seq_to_onehot(seq)
+        ohe = np.expand_dims(ohe, axis=2)
+        res[cntr] = ohe
+        cntr += 1
+    return res
+
+def convert_onehot_to_seq(arr):
+    try:
+        tmp = np.where(arr)[1]
+        tmp = tmp.astype(str)
+        tmp = np.char.replace(tmp, '0', 'A')
+        tmp = np.char.replace(tmp, '1', 'C')
+        tmp = np.char.replace(tmp, '2', 'G')
+        tmp = np.char.replace(tmp, '3', 'T')
+        return ''.join(tmp)
+    except:
+        return ''
+
 def convert_assembely_to_onehot(organism_name, sequences, from_file=False):
     fn = './dump_files/' + organism_name + '_sequences_onehot.pkl'
     if from_file and path.exists(fn):
