@@ -62,7 +62,7 @@ This module will train a model and save it in the ./models/ directory. The saved
 5. <code> -ra, --repeat_file: repeat annotation file address</code>
 6. <code> -iga, --include_gene: does the predictor include the gene annotation in the input? True/False</code>
 7. <code> -ira, --include_repeat: does the predictor include the repeat annotation in the input? True/False</code>
-8. <code> -ws, --window_size: window size, number of including nucleutides in a window</code>
+8. <code> -ws, --window_size: window size, number of including nucleotides in a window</code>
 9. <code> -on, --organism_name: sample name, for saving the files</code>
 
 As a sample you can run:
@@ -71,7 +71,7 @@ As a sample you can run:
 
 The output is a text file containing a binary vector saved in <code> ./output/ </code> folder.
 
-For calculating the accuracy, you can use <code> accuracy_clc.py </code> module. It gets the predicted binary vectory and either a methylation file or another binary vector. If a methylation file is provided in the input, the module calculates the methylation status of each cytosine in the methylation file and then compare it with the predicted binary vector. Else two binary vectors are compared together. The accuracy is the number of correct prediction over all the test size.
+For calculating the accuracy, you can use <code> accuracy_clc.py </code> module. It gets the predicted binary vector and either a methylation file or another binary vector. If a methylation file is provided in the input, the module calculates the methylation status of each cytosine in the methylation file and then compares it with the predicted binary vector. Else two binary vectors are compared together. The accuracy is the number of correct predictions over all the test size.
 
 Module options:
 
@@ -86,16 +86,16 @@ sample code:
 
 ### Methylation-profile based
 
-The <code> train_methprofile.py </code> traines a model for cytosine methylation prediction based on its neghbouring Cytosine methylation levels. Module options:
+The <code> train_methprofile.py </code> traines a model for cytosine methylation prediction based on its neighboring Cytosine methylation levels. Module options:
 
 1. <code> -m, --methylation_file: methylation file address, required</code>
 2. <code> -c, --context: context, required</code>
 3. <code> -tr, --train_size: training dataset size, number of inputs for training</code>
-4. <code> -ws, --window_size: window size, number of including nucleutides in a window</code>
+4. <code> -ws, --window_size: window size, number of including nucleotides in a window</code>
 5. <code> -ct, --coverage_threshold: minimum number of reads for including a cytosine in the training/testing dataset</code>
 6. <code> -on, --organism_name: sample name, for saving the files</code>
 
-The trained model will be saved on the ./models/ folder. Then by using the <code> test_methprofile.py </code> for a sample of cytosines, the binary methylation status can be predicted. This module's input is a profile of a set of cytosines provided in a tab-separated file. Each row of the file should contain the methylation levels of the neighboring cytosines. For example, below is a cytosine profile with a window size of 20 centered on the unknown cytosine(methylation levels of 10 cytosines downstream and ten cytosines upstream)
+The trained model will be saved in the ./models/ folder. Then by using the <code> test_methprofile.py </code> for a sample of cytosines, the binary methylation status can be predicted. This module's input is a profile of a set of cytosines provided in a tab-separated file. Each row of the file should contain the methylation levels of the neighboring cytosines. For example, below is a cytosine profile with a window size of 20 centered on the unknown cytosine(methylation levels of 10 cytosines downstream and ten cytosines upstream)
 
 <code>0.76190476, 0.67857143, 0.6875    , 0.94366197, 1.        , 0.88235294, 0.6875    , 0.91304348, 0.94444444,1.        , 0.92      , 0.8125    , 0.91666667, 0.81481481, 0.82758621, 0.60606061, 0.95833333, 1.        , 1.        , 0.92307692
  </code>
@@ -109,7 +109,7 @@ The output is a text file containing a binary vector saved in <code> ./output/ <
 
 ### Motif Finding
 
-The interpretablity of the module is implemented by <code> motif_finding.py </code> module. This module gets a pre-trained model and a number of sequences in a fasta file and writes out a file which contains the important part of each sequence. The output file is in .fasta format and will be saved in <code> ./motifs/ </code> directory. This module uses Grad-CAM for finding the activation map vector. After calculating the activation map it selects the most important sub-sequence by sliding a window of length fifty along the input, and reporting the window with the highest average of activation map vector. You can give the output of this module to MEME and TOMTOM for finding important motifs matching in the motif Databases
+The interpretability of the module is implemented by <code> motif_finding.py </code> module. This module gets a pre-trained model and a number of sequences in a fasta file and writes out a file that contains the important part of each sequence. The output file is in .fasta format and will be saved in <code> ./motifs/ </code> directory. This module uses Grad-CAM for finding the activation map vector. After calculating the activation map it selects the most important sub-sequence by sliding a window of length fifty along the input and reporting the window with the highest average of the activation map vector. You can give the output of this module to MEME and TOMTOM for finding important motifs matching in the motif Databases
   
 1. <code> -mdl, --model_address: trained model address, required</code>
 2. <code> -seqs, --sequence_file: fasta file containing the sequences which you want to find the motifs in them., required</code>
