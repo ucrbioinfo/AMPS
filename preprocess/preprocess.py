@@ -4,7 +4,6 @@ import pickle
 from os import path
 import random
 import pandas as pd
-import data_reader
 
 def subset_annot(annot_df, type):
     genes_df = annot_df[annot_df['type'] == type]
