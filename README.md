@@ -107,6 +107,21 @@ This can be a row in the cytosine profiles file. The inputs of the <code> test_m
 
 The output is a text file containing a binary vector saved in <code> ./output/ </code> folder.
 
+### Motif Finding
+
+The interpretablity of the module is implemented by <code> motif_finding.py <\code> module. This module gets a pre-trained model and a number of sequences in a fasta file and writes out a file which contains the important part of each sequence. The output file is in .fasta format and will be saved in <code> ./motifs/ <\code> directory. This module uses Grad-CAM for finding the activation map vector. After calculating the activation map it selects the most important sub-sequence by sliding a window of length fifty along the input, and reporting the window with the highest average of activation map vector. You can give the output of this module to MEME and TOMTOM for finding important motifs matching in the motif Databases
+  
+1. <code> -mdl, --model_address: trained model address, required</code>
+2. <code> -seqs, --sequence_file: fasta file containing the sequences which you want to find the motifs in them., required</code>
+3. <code> -ms, --motif_size: size of motifs to search in the input set</code>
+4. <code> -o, --output: output_file_name</code>
+  
+  As a sample you can run this over a sample of sequences provided in this repository:
+  
+  <code>python motif_finding.py -mdl ./models/sample_organismCG.mdl -seqs ./sample/motif_input_sample.fa<\code>
+  
+  
+
 ### GeneBody methylation
 
 The methylation analysis in the gene-body and flanking regions are implemented in the <code> gene_body_analysis.py </code>. This module divides the flanking regions and gene body into several bins and then in the genome-wide calculates the average methylation in each bin. Module inputs:
