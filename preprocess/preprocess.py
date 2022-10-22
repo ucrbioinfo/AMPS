@@ -4,6 +4,7 @@ import pickle
 from os import path
 import random
 import pandas as pd
+import data_reader
 
 def subset_annot(annot_df, type):
     genes_df = annot_df[annot_df['type'] == type]
@@ -121,8 +122,7 @@ def convert_seq_to_onehot(seq):
     res = np.concatenate([As, Cs, Gs, Ts], axis=1)
     return res
 
-def convert_fasta_file_to_onehot(seqs_fn):
-    seqs = data_reader.readfasta(seqs_fn)
+def convert_fasta_file_to_onehot(seqs):
     lens = map(len, seqs.values())
     if len(set(lens)) != 1:
         raise Exception('All sequences in the input set must have the same length')
@@ -131,7 +131,7 @@ def convert_fasta_file_to_onehot(seqs_fn):
     res = np.zeros((len(seqs), len(seqs[list(seqs.keys)[0]]), 4, 1))
     cntr = 0
     for seq in seqs.values():
-        ohe = preprocess.convert_seq_to_onehot(seq)
+        ohe = convert_seq_to_onehot(seq)
         ohe = np.expand_dims(ohe, axis=2)
         res[cntr] = ohe
         cntr += 1

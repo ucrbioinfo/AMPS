@@ -3,6 +3,7 @@ import os
 import argparse
 import motif_analysis as motif_analysis
 import preprocess.preprocess as preprocess
+import preprocess.data_reader as data_reader
 
 if not os.path.exists('./motifs/'):
     os.makedirs('./motifs/')
@@ -17,8 +18,8 @@ parser.add_argument('-o', '--output', help='output_file_name', required=False, d
 
 args = parser.parse_args()
 
-model = keras.models.load_model('./models/' + args.model_address)
-seqs_oh = preprocess.convert_fasta_file_to_onehot(args.sequence_file)
+model = keras.models.load_model(args.model_address)
+seqs_oh = preprocess.convert_fasta_file_to_onehot(data_reader.readfasta(args.sequence_file))
 motif_analysis.save_motif_fasta_files(model, seqs_oh, args.motif_size, args.output)
 
 
