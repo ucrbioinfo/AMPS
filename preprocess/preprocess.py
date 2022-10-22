@@ -127,7 +127,7 @@ def convert_fasta_file_to_onehot(seqs):
         raise Exception('All sequences in the input set must have the same length')
     if len(seqs) == 0:
         raise Exception('sequences file is empty')
-    res = np.zeros((len(seqs), len(seqs[list(seqs.keys)[0]]), 4, 1))
+    res = np.zeros((len(seqs), len(seqs[list(seqs.keys())[0]]), 4, 1))
     cntr = 0
     for seq in seqs.values():
         ohe = convert_seq_to_onehot(seq)
