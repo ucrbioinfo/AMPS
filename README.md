@@ -62,8 +62,7 @@ This module will train a model and save it in the ./models/ directory. The saved
 5. <code> -ra, --repeat_file: repeat annotation file address</code>
 6. <code> -iga, --include_gene: does the predictor include the gene annotation in the input? True/False</code>
 7. <code> -ira, --include_repeat: does the predictor include the repeat annotation in the input? True/False</code>
-8. <code> -ws, --window_size: window size, number of including nucleotides in a window</code>
-9. <code> -on, --organism_name: sample name, for saving the files</code>
+8. <code> -on, --organism_name: sample name, for saving the files</code>
 
 As a sample you can run:
 
@@ -86,14 +85,13 @@ sample code:
 
 ### Methylation-profile based
 
-The <code> train_methprofile.py </code> traines a model for cytosine methylation prediction based on its neighboring Cytosine methylation levels. Module options:
+The <code> train_methprofile.py </code> trains a model for cytosine methylation prediction based on its neighboring Cytosine methylation levels. Module options:
 
 1. <code> -m, --methylation_file: methylation file address, required</code>
-2. <code> -c, --context: context, required</code>
-3. <code> -tr, --train_size: training dataset size, number of inputs for training</code>
-4. <code> -ws, --window_size: window size, number of including nucleotides in a window</code>
-5. <code> -ct, --coverage_threshold: minimum number of reads for including a cytosine in the training/testing dataset</code>
-6. <code> -on, --organism_name: sample name, for saving the files</code>
+2. <code> -tr, --train_size: training dataset size, number of inputs for training</code>
+3. <code> -ws, --window_size: window size, number of including cytosines in a window</code>
+4. <code> -ct, --coverage_threshold: minimum number of reads for including a cytosine in the training/testing dataset</code>
+5. <code> -on, --organism_name: sample name, for saving the files</code>
 
 The trained model will be saved in the ./models/ folder. Then by using the <code> test_methprofile.py </code> for a sample of cytosines, the binary methylation status can be predicted. This module's input is a profile of a set of cytosines provided in a tab-separated file. Each row of the file should contain the methylation levels of the neighboring cytosines. For example, below is a cytosine profile with a window size of 20 centered on the unknown cytosine(methylation levels of 10 cytosines downstream and ten cytosines upstream)
 
