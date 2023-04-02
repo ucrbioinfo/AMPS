@@ -25,7 +25,7 @@ def input_maker(methylations, datasize, window_size, context, half_w):
     for lcp in list(last_chr_pos.values()):
         if lcp > 0 and lcp < len(mlevels) - window_size:
             avlbls = np.setdiff1d(avlbls, range(lcp-half_w, lcp+half_w))
-    smple = random.sample(list(avlbls), min(len(datasize), len(avlbls)))
+    smple = random.sample(list(avlbls), min(datasize, len(avlbls)))
     count_errored = 0
     print('border conditions: ', np.count_nonzero(np.asarray(smple) < half_w))
     for index, p in enumerate(smple):
