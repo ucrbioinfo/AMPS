@@ -25,25 +25,28 @@ def read_annot(address, chromosomes = None):
                 annot_df = annot_df[annot_df['chr'] != chr]
     return annot_df
 
-def get_methylations(address, coverage_threshold, context=None):
-    methylations = read_methylations(address, context, coverage_threshold=coverage_threshold)
+def get_methylations(address, coverage_threshold, context=None, contain_targets=True):
+    methylations = read_methylations(address, context, coverage_threshold=coverage_threshold, contain_targets=contain_targets)
     include_context = True
     if context == None:
         include_context = False
-    methylations, num_to_chr_dic = preprocess.shrink_methylation(methylations, include_context=include_context)
+    methylations, num_to_chr_dic = preprocess.shrink_methylation(methylations, include_context=include_context, contain_targets=contain_targets)
     return methylations, num_to_chr_dic
 
-def read_methylations(address, context, coverage_threshold = 10):
+def read_methylations(address, context, coverage_threshold = 10, contain_targets=False):
     methylations = pd.read_table(address, header=None)
-    methylations.columns = ['chr', 'position', 'strand', 'meth', 'unmeth', 'context', 'three']
-    methylations.drop(['three'], axis=1)
-    if len(context) != 0:
-        methylations = methylations[methylations['context'] == context]
-    methylations = methylations[methylations['meth'] + methylations['unmeth'] > coverage_threshold]
-    if len(context) != 0:
-        methylations.drop(['context'], axis=1)
-    methylations.drop(['strand'], axis=1)
-    methylations = methylations.reset_index(drop=True)
+    if contain_targets:
+        methylations.columns = ['chr', 'position', 'strand', 'meth', 'unmeth', 'context', 'three']
+        methylations.drop(['three'], axis=1)
+        if len(context) != 0:
+            methylations = methylations[methylations['context'] == context]
+        methylations = methylations[methylations['meth'] + methylations['unmeth'] > coverage_threshold]
+        if len(context) != 0:
+            methylations.drop(['context'], axis=1)
+        methylations.drop(['strand'], axis=1)
+        methylations = methylations.reset_index(drop=True)
+    else:
+        methylations.columns = ['chr', 'position']
     return methylations
 
 def make_meth_string(organism_name, methylations, sequences, coverage_thrshld, from_file=False):

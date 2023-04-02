@@ -45,23 +45,25 @@ def make_annotseq_dic(organism_name, annot_tag, annot_subset_df, sequences, from
     save_dic(fn, annot_seqs)
     return annot_seqs
 
-def shrink_methylation(methylations, include_context = False):
+def shrink_methylation(methylations, include_context = False, contain_targets=True):
     chr_ndarray = np.asarray(methylations['chr'])
     positions_ndarray = np.asarray(methylations['position'])
-    mlevels_ndarray = np.asarray(methylations['meth']/(methylations['meth']+methylations['unmeth']))
     chr_to_num_dic = {}
     unique_chrs, unique_indices, chr_ndarray = np.unique(chr_ndarray, return_inverse=True, return_index=True)
     for i in range(len(unique_chrs)):
         chr_to_num_dic[chr_ndarray[unique_indices[i]]] = unique_chrs[i]
     chr_ndarray = chr_ndarray.astype('short')
-    if include_context:
-        methylations = pd.DataFrame({'chr': chr_ndarray, 'position': positions_ndarray, 'mlevel': mlevels_ndarray, 'context': methylations['context']})
+    if contain_targets:
+        mlevels_ndarray = np.asarray(methylations['meth']/(methylations['meth']+methylations['unmeth']))
+        if include_context:
+            methylations = pd.DataFrame({'chr': chr_ndarray, 'position': positions_ndarray, 'mlevel': mlevels_ndarray, 'context': methylations['context']})
+        else:
+            methylations = pd.DataFrame({'chr': chr_ndarray, 'position': positions_ndarray, 'mlevel': mlevels_ndarray})
+        methylations['mlevel'] = methylations['mlevel'].astype(float)
     else:
-        methylations = pd.DataFrame({'chr': chr_ndarray, 'position': positions_ndarray, 'mlevel': mlevels_ndarray})
-
+        methylations = pd.DataFrame({'chr': chr_ndarray, 'position': positions_ndarray})
     methylations['chr'] = methylations['chr'].astype(int)
     methylations['position'] = methylations['position'].astype(int)
-    methylations['mlevel'] = methylations['mlevel'].astype(float)
     return methylations, chr_to_num_dic
 
 

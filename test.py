@@ -40,7 +40,7 @@ model = keras.models.load_model(args.model_address)
 organism_name = args.organism_name
 sequences = data_reader.readfasta(args.genome_assembly_file)
 print('genome sequence assembly is loaded...')
-methylations, num_to_chr_dic = data_reader.get_methylations(args.methylation_file,  -1, '')
+methylations, num_to_chr_dic = data_reader.get_methylations(args.methylation_file,  -1, '', contain_targets=False)
 annot_seqs_onehot = []
 if include_gene:
     annot_df = data_reader.read_annot(args.annotation_file)
