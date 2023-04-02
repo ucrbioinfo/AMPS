@@ -62,8 +62,7 @@ This module will train a model and save it in the ./models/ directory. The saved
 5. <code> -ra, --repeat_file: repeat annotation file address</code>
 6. <code> -iga, --include_gene: does the predictor include the gene annotation in the input? True/False</code>
 7. <code> -ira, --include_repeat: does the predictor include the repeat annotation in the input? True/False</code>
-8. <code> -ws, --window_size: window size, number of including nucleotides in a window</code>
-9. <code> -on, --organism_name: sample name, for saving the files</code>
+8. <code> -on, --organism_name: sample name, for saving the files</code>
 
 As a sample you can run:
 
@@ -86,7 +85,7 @@ sample code:
 
 ### Methylation-profile based
 
-The <code> train_methprofile.py </code> traines a model for cytosine methylation prediction based on its neighboring Cytosine methylation levels. Module options:
+The <code> train_methprofile.py </code> trains a model for cytosine methylation prediction based on its neighboring Cytosine methylation levels. Module options:
 
 1. <code> -m, --methylation_file: methylation file address, required</code>
 2. <code> -c, --context: context, required</code>
