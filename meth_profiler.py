@@ -35,7 +35,7 @@ def input_maker(methylations,  datasize, window_size, context, half_w, methylate
         filtered_avlbls = [x for x in avlbls if mlevels[x] > 0.5]
     else:
         filtered_avlbls = [x for x in avlbls if mlevels[x] <= 0.5]
-    smple = random.sample(list(filtered_avlbls), datasize)
+    smple = random.sample(list(filtered_avlbls), min(datasize, len(filtered_avlbls)))
     count_errored = 0
     print('border conditions: ', np.count_nonzero(np.asarray(smple) < half_w))
     for index, p in enumerate(smple):
