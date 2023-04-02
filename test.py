@@ -68,7 +68,7 @@ if include_repeat:
 
 #methylations['mlevel'] = methylations['mlevel'].fillna(0)
 test_profiles, _ = pg.get_profiles(methylations, range(len(methylations)), sequences_onehot, annot_seqs_onehot, num_to_chr_dic, window_size=args.window_size, contain_targets=False)
-x_test, _ = pg.data_preprocess(test_profiles, None, include_annot=include_gene | include_repeat)
+x_test, _ = pg.data_preprocess(test_profiles, None, include_annot=include_gene | include_repeat, contain_targets=False)
 
 y_pred = model.predict(x_test)
 
