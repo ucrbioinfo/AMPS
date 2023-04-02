@@ -10,7 +10,7 @@ if not os.path.exists('./models/'):
     os.makedirs('./models/')
 if not os.path.exists('./output/'):
     os.makedirs('./output/')
-parser = argparse.ArgumentParser(description='This is a demo script by nixCraft.')
+parser = argparse.ArgumentParser(description='')
 
 parser.add_argument('-p', '--prfiles_address', help='address to the file containing the cytosine profiles. a tab seperated file, each row is the methylation level of neighbouring Cytosines', required=True)
 parser.add_argument('-mdl', '--model_address', help='trained model address', required=True)
