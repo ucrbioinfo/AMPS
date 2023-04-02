@@ -17,7 +17,7 @@ parser = argparse.ArgumentParser(description='AMPS')
 
 parser.add_argument('-m', '--methylation_file', help='methylation file address', required=True)
 parser.add_argument('-tr', '--train_size', help='training dataset size, number of inputs for training', required=False, default=500000, type=int)
-parser.add_argument('-ws', '--window_size', help='window size, number of including nucleutides in a window.', required=False, default=3200, type=int)
+parser.add_argument('-ws', '--window_size', help='window size, number of including cytosines in a window.', required=False, default=20, type=int)
 parser.add_argument('-ct', '--coverage_threshold', help='coverage_threshold, minimum number of reads for including a cytosine in the training dataset', required=False, default=10, type=int)
 parser.add_argument('-on', '--organism_name', help='Organism name, for saving the files...', required=False, default='sample_organism')
 
