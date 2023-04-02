@@ -33,6 +33,8 @@ def get_methylations(address, coverage_threshold, context=None, contain_targets=
     methylations, num_to_chr_dic = preprocess.shrink_methylation(methylations, include_context=include_context, contain_targets=contain_targets)
     return methylations, num_to_chr_dic
 
+#returns the methylations dataframe where all the rows has over threshold coverage, If the context is specified in the input
+#output variable will contain only the cytosines in specified context.
 def read_methylations(address, context, coverage_threshold = 10, contain_targets=False):
     methylations = pd.read_table(address, header=None)
     if contain_targets:

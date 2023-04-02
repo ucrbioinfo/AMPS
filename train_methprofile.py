@@ -22,7 +22,16 @@ parser.add_argument('-ws', '--window_size', help='window size, number of includi
 parser.add_argument('-ct', '--coverage_threshold', help='coverage_threshold, minimum number of reads for including a cytosine in the training dataset', required=False, default=10, type=int)
 parser.add_argument('-on', '--organism_name', help='Organism name, for saving the files...', required=False, default='sample_organism')
 
+
 args = parser.parse_args()
+
+args = argparse.Namespace()
+args.methylation_file = './sample/sample_methylations_train.txt'
+args.context = 'CG'
+args.train_size = 50000
+args.window_size = 20
+args.coverage_threshold = 10
+args.organism_name = 'sample_organism'
 
 def run_experiment(organism_name, X, Y, window_size=20, val_percent=0.2):
     x_train, x_val, y_train, y_val = train_test_split(X, Y, test_size=val_percent, random_state=None)
@@ -42,6 +51,7 @@ def run_experiment(organism_name, X, Y, window_size=20, val_percent=0.2):
     print('model_saved in ./models directory with name:' + model_tag)
     model.save('./models/' + model_tag)
 
+#gets methylation dataframe containing all the available cytosines.
 methylations, num_to_chr_dic = data_reader.get_methylations(args.methylation_file,  args.coverage_threshold, context='')
 X, Y = mp.profiler(methylations, args.context, args.train_size, window_size=args.window_size)
 run_experiment(args.organism_name, X, Y, window_size=args.train_size, val_percent=0.1)

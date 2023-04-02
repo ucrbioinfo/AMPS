@@ -1,7 +1,10 @@
 import numpy as np
 import random as random
+import preprocess.preprocess as preprocess
+from os.path import exists
 
-def input_maker(methylations, datasize, window_size, context, half_w):
+
+def input_maker(methylations,  datasize, window_size, context, half_w, methylated=True):
     methylations = methylations.sort_values(["chr", "position"], ascending=(True, True))
     chrs_counts = methylations['chr'].value_counts()
     last_chr_pos = {}
@@ -15,7 +18,10 @@ def input_maker(methylations, datasize, window_size, context, half_w):
     # methylations.iloc[2550983] => chr 3.0 position    23459763.0
     # methylations.iloc[2550984] => chr 4.0 position    1007
     methylations.insert(0, 'idx', range(0, len(methylations)))
-    sub_methylations = methylations[methylations['context'] == context]
+    if len(context) != 0:
+        sub_methylations = methylations[methylations['context'] == context]
+    else:
+        sub_methylations = methylations
     idxs = sub_methylations['idx']
     mlevels = methylations['mlevel']
     mlevels = np.asarray(mlevels)
@@ -25,7 +31,11 @@ def input_maker(methylations, datasize, window_size, context, half_w):
     for lcp in list(last_chr_pos.values()):
         if lcp > 0 and lcp < len(mlevels) - window_size:
             avlbls = np.setdiff1d(avlbls, range(lcp-half_w, lcp+half_w))
-    smple = random.sample(list(avlbls), min(datasize, len(avlbls)))
+    if methylated:
+        filtered_avlbls = [x for x in avlbls if mlevels[x] > 0.5]
+    else:
+        filtered_avlbls = [x for x in avlbls if mlevels[x] <= 0.5]
+    smple = random.sample(list(filtered_avlbls), datasize)
     count_errored = 0
     print('border conditions: ', np.count_nonzero(np.asarray(smple) < half_w))
     for index, p in enumerate(smple):
@@ -42,8 +52,7 @@ def input_maker(methylations, datasize, window_size, context, half_w):
 def profiler(methylations, context, datasize, window_size=20 , threshold=0.5):
     #methylations = methylations[(methylations['mlevel'] > 0.8) | (methylations['mlevel'] < 0.2)]
     half_w = int(window_size/2)
-    methylated = methylations[methylations['mlevel'] > threshold]
-    unmethylated = methylations[methylations['mlevel'] <= threshold]
-    X_methylated, Y_methylated = input_maker(methylated, int(datasize/2), window_size, context, half_w)
-    X_unmethylated, Y_unmethylated = input_maker(unmethylated, int(datasize/2), window_size, context, half_w)
+    X_methylated, Y_methylated = input_maker(methylations, int(datasize/2), window_size, context, half_w, methylated=True)
+    X_unmethylated, Y_unmethylated = input_maker(methylations, int(datasize/2), window_size, context, half_w, methylated=False)
     return np.concatenate((X_methylated, X_unmethylated), axis=0), np.concatenate((Y_methylated, Y_unmethylated), axis=0)
+
