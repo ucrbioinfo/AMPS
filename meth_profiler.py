@@ -25,8 +25,6 @@ def input_maker(methylations,  datasize, window_size, context, half_w, methylate
     idxs = sub_methylations['idx']
     mlevels = methylations['mlevel']
     mlevels = np.asarray(mlevels)
-    X = np.zeros((datasize, window_size))
-    Y = np.zeros(datasize)
     avlbls = np.asarray(idxs)
     for lcp in list(last_chr_pos.values()):
         if lcp > 0 and lcp < len(mlevels) - window_size:
@@ -38,6 +36,8 @@ def input_maker(methylations,  datasize, window_size, context, half_w, methylate
     smple = random.sample(list(filtered_avlbls), min(datasize, len(filtered_avlbls)))
     count_errored = 0
     print('border conditions: ', np.count_nonzero(np.asarray(smple) < half_w))
+    X = np.zeros((len(smple), window_size))
+    Y = np.zeros(len(smple))
     for index, p in enumerate(smple):
         try:
             X[index] = np.concatenate((mlevels[p-half_w: p], mlevels[p+1: p+half_w+1]), axis=0)
@@ -49,7 +49,7 @@ def input_maker(methylations,  datasize, window_size, context, half_w, methylate
     print(count_errored, ' profiles faced error')
     return X, Y
 
-def profiler(methylations, context, datasize, window_size=20 , threshold=0.5):
+def profiler(methylations, context, datasize, window_size=20):
     #methylations = methylations[(methylations['mlevel'] > 0.8) | (methylations['mlevel'] < 0.2)]
     half_w = int(window_size/2)
     X_methylated, Y_methylated = input_maker(methylations, int(datasize/2), window_size, context, half_w, methylated=True)
