@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 import random
 import preprocess.preprocess as preprocess
 
-def get_profiles(methylations, sample_set, sequences_onehot, annot_seqs_onehot, num_to_chr_dic, window_size=3200):
+def get_profiles(methylations, sample_set, sequences_onehot, annot_seqs_onehot, num_to_chr_dic, window_size=3200, contain_targets = True):
     log = len(sample_set) > 50000
     log = False
     boundary_cytosines = 0
@@ -18,7 +18,8 @@ def get_profiles(methylations, sample_set, sequences_onehot, annot_seqs_onehot, 
         row = methylations.iloc[position]
         center = int(row['position'] - 1)
         chro = num_to_chr_dic[row['chr']]
-        targets[index] = round(float(row['mlevel']))
+        if contain_targets:
+            targets[index] = round(float(row['mlevel']))
         try:
             profiles[index] = get_window_seqgene_df(sequences_onehot, annot_seqs_onehot, chro, center, window_size)
         except:
@@ -32,13 +33,10 @@ def get_profiles(methylations, sample_set, sequences_onehot, annot_seqs_onehot, 
     if log:
         print(str(boundary_cytosines) + ' boundary cytosines are ignored')
         print(datetime.now())
-    return profiles, targets
-
-def test_sampler(methylations_test, sequences_onehot, annot_seqs_onehot, window_size, num_to_chr_dic, include_annot=False):
-    test_profiles, test_targets = get_profiles(methylations_test, range(len(methylations_test)), sequences_onehot, annot_seqs_onehot, num_to_chr_dic, window_size=window_size)
-    x_test, y_test = data_preprocess(test_profiles, test_targets, include_annot=include_annot)
-    return x_test, y_test
-
+    if contain_targets:
+        return profiles, targets
+    else:
+        return profiles, None
 
 
 def get_window_seqgene_df(sequences_df, annot_seq_df_list, chro, center, window_size):
@@ -47,12 +45,15 @@ def get_window_seqgene_df(sequences_df, annot_seq_df_list, chro, center, window_
         profile_df = np.concatenate([profile_df, annot_seq_df_list[i][chro][center - int(window_size/2): center + int(window_size/2)]], axis=1)
     return profile_df
 
-def data_preprocess(X, Y, include_annot=False):
+def data_preprocess(X, Y, include_annot=False, contain_targets = True):
     if not include_annot:
         X = np.delete(X, range(4, X.shape[2]), 2)
     X = X.reshape(list(X.shape) + [1])
-    Y = np.asarray(pd.cut(Y, bins=2, labels=[0, 1], right=False))
-    return X, Y
+    if contain_targets:
+        Y = np.asarray(pd.cut(Y, bins=2, labels=[0, 1], right=False))
+        return X, Y
+    else:
+        return X, None
 
 def split_data(X, Y, pcnt=0.1):
     x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=pcnt, random_state=None)

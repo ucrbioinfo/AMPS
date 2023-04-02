@@ -66,9 +66,9 @@ if include_repeat:
     annot_str = preprocess.make_annotseq_dic(organism_name, 'repeat', annot_df, sequences, from_file=True, strand_spec=False)
     annot_seqs_onehot.append(annot_str)
 
-methylations['mlevel'] = methylations['mlevel'].fillna(0)
-test_profiles, test_targets = pg.get_profiles(methylations, range(len(methylations)), sequences_onehot, annot_seqs_onehot, num_to_chr_dic, window_size=args.window_size)
-x_test, y_test = pg.data_preprocess(test_profiles, test_targets, include_annot=include_gene | include_repeat)
+#methylations['mlevel'] = methylations['mlevel'].fillna(0)
+test_profiles, _ = pg.get_profiles(methylations, range(len(methylations)), sequences_onehot, annot_seqs_onehot, num_to_chr_dic, window_size=args.window_size, contain_targets=False)
+x_test, _ = pg.data_preprocess(test_profiles, None, include_annot=include_gene | include_repeat)
 
 y_pred = model.predict(x_test)
 
