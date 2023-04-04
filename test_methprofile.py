@@ -1,4 +1,5 @@
 import argparse
+import tensorflow as tf
 from tensorflow import keras
 import os
 import numpy as np
@@ -16,8 +17,13 @@ parser.add_argument('-p', '--prfiles_address', help='address to the file contain
 parser.add_argument('-mdl', '--model_address', help='trained model address', required=True)
 parser.add_argument('-on', '--organism_name', help='Organism name, for saving the files...', required=False, default='sample_organism')
 
-
 args = parser.parse_args()
+
+args = argparse.Namespace()
+args.prfiles_address = './sample/sample_meth_profile_test.txt'
+args.model_address = './models/sample_organismCG_methprofile.mdl'
+args.organism_name = 'sample_organism'
+
 
 model = keras.models.load_model(args.model_address)
 
@@ -27,5 +33,5 @@ X = X.reshape(list(X.shape) + [1])
 
 Y = model.predict(X)
 
-np.save('./output/' + args.organism_name+'_' + args.context + '_methprofile.npy', Y.round())
+np.savetxt('./output/' + args.organism_name+'_methprofile.npy', Y.round(), delimiter=' ', fmt='%d')
 print('results saved in ./output/'+ args.organism_name+'_' + args.context + '.npy')
