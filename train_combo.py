@@ -57,14 +57,10 @@ def input_maker(methylations,  datasize, window_size, organism_name, from_file, 
     mlevels = np.asarray(mlevels)
     X = np.zeros((datasize, window_size))
     Y = np.zeros(datasize)
-    if from_file and exists('./temporary_files/' +organism_name+'_meth_avlbls.npy'):
-        avlbls = np.load('./temporary_files/' +organism_name+'_meth_avlbls.npy')
-    else:
-        avlbls = np.asarray(idxs)
-        for lcp in list(last_chr_pos.values()):
-            if lcp > 0 and lcp < len(mlevels) - window_size:
-                avlbls = np.setdiff1d(avlbls, range(lcp-half_w, lcp+half_w))
-        np.save('./temporary_files/' +organism_name+'_meth_avlbls.npy', avlbls)
+    avlbls = np.asarray(idxs)
+    for lcp in list(last_chr_pos.values()):
+        if lcp > 0 and lcp < len(mlevels) - window_size:
+            avlbls = np.setdiff1d(avlbls, range(lcp-half_w, lcp+half_w))
     if methylated:
         filtered_avlbls = [x for x in avlbls if mlevels[x] > 0.5]
     else:
