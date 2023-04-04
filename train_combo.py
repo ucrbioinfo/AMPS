@@ -35,6 +35,21 @@ parser.add_argument('-on', '--organism_name', help='Organism name, for saving th
 parser.add_argument('-mcs', '--memory_chunk_size', help='number of inputs in each memory load', required=False, default=1000, type=int)
 args = parser.parse_args()
 
+
+
+# args = argparse.Namespace()
+# args.methylation_file = './sample/sample_methylations_train.txt'
+# args.genome_assembly_file = './sample/sample_seq.fasta'
+# args.gene_file = './sample/sample_gene_annotation.txt'
+# args.repeat_file = './sample/sample_repeat_annotation.txt'
+# args.include_gene = 'True'
+# args.include_repeat = 'True'
+# args.context = 'CG'
+# args.train_size = 50000
+# args.coverage_threshold = 10
+# args.organism_name = 'sample_organism'
+# args.memory_chunk_size = 1000
+
 def input_maker(methylations,  datasize, window_size, organism_name, from_file, context, half_w, methylated = True):
     methylations = methylations.sort_values(["chr", "position"], ascending=(True, True))
     chrs_counts = methylations['chr'].value_counts()
@@ -55,8 +70,6 @@ def input_maker(methylations,  datasize, window_size, organism_name, from_file, 
     idxs = sub_methylations['idx']
     mlevels = methylations['mlevel']
     mlevels = np.asarray(mlevels)
-    X = np.zeros((datasize, window_size))
-    Y = np.zeros(datasize)
     avlbls = np.asarray(idxs)
     for lcp in list(last_chr_pos.values()):
         if lcp > 0 and lcp < len(mlevels) - window_size:
@@ -66,6 +79,8 @@ def input_maker(methylations,  datasize, window_size, organism_name, from_file, 
     else:
         filtered_avlbls = [x for x in avlbls if mlevels[x] <= 0.5]
     smple = random.sample(list(filtered_avlbls), min(datasize, len(filtered_avlbls)))
+    X = np.zeros((len(smple), window_size))
+    Y = np.zeros(len(smple))
     count_errored = 0
     print('border conditions: ', np.count_nonzero(np.asarray(smple) < half_w))
     for index, p in enumerate(smple):

@@ -7,9 +7,12 @@ import preprocess.preprocess as preprocess
 
 def get_profiles(methylations, sample_set, sequences_onehot, annot_seqs_onehot, num_to_chr_dic, window_size=3200, contain_targets = True):
     log = len(sample_set) > 50000
-    log = False
+    log = True
     boundary_cytosines = 0
-    profiles = np.zeros([len(sample_set), window_size, 4 + 2*len(annot_seqs_onehot)], dtype='short')
+    column_num = 4
+    for i in range(len(annot_seqs_onehot)):
+        column_num += annot_seqs_onehot[i][list((annot_seqs_onehot[i].keys()))[0]].shape[1]
+    profiles = np.zeros([len(sample_set), window_size, column_num], dtype='short')
     targets = np.zeros(len(sample_set), dtype='short')
     total = len(sample_set)
     count = 0
