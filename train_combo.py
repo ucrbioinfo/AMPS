@@ -14,7 +14,7 @@ import numpy as np
 from os.path import exists
 import random
 from tensorflow.keras.layers import Conv2D, Input, concatenate
-import preprocess.preprocess
+import preprocess.preprocess as preprocess
 
 if not os.path.exists('./dump_files/'):
     os.makedirs('./dump_files/')
