@@ -85,7 +85,7 @@ if include_repeat:
     annot_seqs_onehot.append(annot_str)
 
 #methylations['mlevel'] = methylations['mlevel'].fillna(0)
-test_profiles, _ = get_profiles(methylations, range(len(methylations)), sequences_onehot, annot_seqs_onehot, num_to_chr_dic, window_size=3200, contain_targets=False)
+test_profiles, _ = pg.get_profiles(methylations, range(len(methylations)), sequences_onehot, annot_seqs_onehot, num_to_chr_dic, window_size=3200, contain_targets=False)
 x_test_seq, _ = pg.data_preprocess(test_profiles, None, include_annot=include_gene | include_repeat, contain_targets=False)
 
 x_test_meth = pd.read_csv(args.prfiles_address, header=None, sep='\t')
@@ -97,6 +97,3 @@ y_pred = model.predict([x_test_seq, x_test_meth])
 
 np.savetxt('./output/' + organism_name + '.txt', y_pred.round().astype(int), delimiter=' ', fmt='%d')
 print('results saved in ./output/' + organism_name + '.txt')
-
-
-#res = pd.concat([x_test_meth, x_test_meth.iloc[:6062-5524]], axis=0)

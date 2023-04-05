@@ -9,6 +9,10 @@ parser.add_argument('-pr', '--y_predicted', help='address to the predicted binar
 parser.add_argument('-te', '--y_true', help='address to true methylation status binary vector file', required=False)
 parser.add_argument('-m', '--methylation_file', help='address to true methylation file address', required=False)
 
+# args = argparse.Namespace()
+# args.y_predicted = './output/sample_organism.txt'
+# args.y_true = './sample/sample_meth_profile_test_ground_truth.txt'
+
 args = parser.parse_args()
 if args.y_true == None and args.methylation_file == None:
     print('Error; Provide test output')

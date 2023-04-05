@@ -37,7 +37,7 @@ def input_maker(methylations,  datasize, window_size, context, half_w, methylate
     count_errored = 0
     print('border conditions: ', np.count_nonzero(np.asarray(smple) < half_w))
     X = np.zeros((len(smple), window_size))
-    Y = np.zeros(datasize)
+    Y = np.zeros(len(smple))
     for index, p in enumerate(smple):
         try:
             X[index] = np.concatenate((mlevels[p-half_w: p], mlevels[p+1: p+half_w+1]), axis=0)
