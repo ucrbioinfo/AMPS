@@ -25,7 +25,6 @@ parser.add_argument('-ga', '--gene_file', help='gene annotation file', required=
 parser.add_argument('-ra', '--repeat_file', help='repeat annotation file', required=False)
 parser.add_argument('-iga', '--include_gene', help='does the predictor include the gene annotation in the input? True/False, It has to be similar to training dataset', required=False, default=False)
 parser.add_argument('-ira', '--include_repeat', help='does the predictor include the repeat annotation in the input? True/False, It has to be similar to training dataset', required=False, default=False)
-parser.add_argument('-ws', '--window_size', help='window size, number of including nucleutides in a window. It has to be similar to the training set window-size', required=False, default=3200, type=int)
 parser.add_argument('-on', '--organism_name', help='Organism name, for saving the files...', required=False, default='sample_organism')
 
 

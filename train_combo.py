@@ -130,7 +130,7 @@ def run_experiment(X_seq, X_meth, Y, seq_cols, meth_window_size=20, seq_window_s
     opt = SGD(lr=0.001)
     model = tf.keras.models.Model(inputs=[input_1, input_2], outputs=x)
     model.compile(loss=keras.losses.binary_crossentropy, optimizer=opt, metrics=['accuracy'])
-    model.fit([X_seq_train, X_meth_train], y_train, batch_size=32, epochs=20, verbose=1, validation_data=([X_seq_val, X_meth_val], y_val))
+    model.fit([X_seq_train, X_meth_train], y_train, batch_size=32, epochs=20, verbose=0, validation_data=([X_seq_val, X_meth_val], y_val))
     model_tag = str(organism_name) + str(args.context) + '_combo' + '.mdl'
     print('model_saved in ./models directory with name:' + model_tag)
     model.save('./models/' + model_tag)
