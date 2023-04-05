@@ -41,10 +41,9 @@ AMPS uses three inputs:
 6. <code> -iga, --include_gene: does the predictor include the gene annotation in the input? True/False</code>
 7. <code> -ira, --include_repeat: does the predictor include the repeat annotation in the input? True/False</code>
 8. <code> -tr, --train_size: training dataset size, number of inputs for training</code>
-9. <code> -ws, --window_size: window size, number of including nucleotides in a window</code>
-10. <code> -ct, --coverage_threshold: minimum number of reads for including a cytosine in the training/testing dataset</code>
-11. <code> -on, --organism_name: sample name, for saving the files</code>
-12. <code> -mcs, --memory_chunk_size: number of inputs in each memory load</code>
+9. <code> -ct, --coverage_threshold: minimum number of reads for including a cytosine in the training/testing dataset</code>
+10. <code> -on, --organism_name: sample name, for saving the files</code>
+11. <code> -mcs, --memory_chunk_size: number of inputs in each memory load</code>
 
 As a sample you can run:
 
@@ -76,22 +75,26 @@ Module options:
 
 1. <code> -pr, --y_predicted: address to the predicted binary vector file, required</code>
 2. <code> -te, --y_true: address to true methylation status binary vector file</code>
-3. <code> -m, --methylation_file: address to true methylation file address</code>
+3. <code> -m, --methylation_file: address to ground truth methylation file. The methylation file must contain all the columns of bismark output</code>
 
 
 sample code:
 
-<code>python accuracy_clc.py -pr ./output/sample_organism.txt -m ./sample/sample_methylations_test.txt</code>
+<code>python accuracy_calc.py -pr ./output/sample_organism.txt -m ./sample/sample_meth_profile_test_ground_truth.txt</code>
 
 ### Methylation-profile based
 
 The <code> train_methprofile.py </code> trains a model for cytosine methylation prediction based on its neighboring Cytosine methylation levels. Module options:
 
 1. <code> -m, --methylation_file: methylation file address, required</code>
+2. <code> -c, --context: context, required</code>
 2. <code> -tr, --train_size: training dataset size, number of inputs for training</code>
-3. <code> -ws, --window_size: window size, number of including cytosines in a window</code>
-4. <code> -ct, --coverage_threshold: minimum number of reads for including a cytosine in the training/testing dataset</code>
-5. <code> -on, --organism_name: sample name, for saving the files</code>
+3. <code> -ct, --coverage_threshold: minimum number of reads for including a cytosine in the training/testing dataset</code>
+4. <code> -on, --organism_name: sample name, for saving the files</code>
+
+A sample code to run this module on the sample data:
+
+<code>python train_methprofile.py -m ./sample/sample_methylations_train.txt -c CG</code>
 
 The trained model will be saved in the ./models/ folder. Then by using the <code> test_methprofile.py </code> for a sample of cytosines, the binary methylation status can be predicted. This module's input is a profile of a set of cytosines provided in a tab-separated file. Each row of the file should contain the methylation levels of the neighboring cytosines. For example, below is a cytosine profile with a window size of 20 centered on the unknown cytosine(methylation levels of 10 cytosines downstream and ten cytosines upstream)
 
@@ -104,6 +107,52 @@ This can be a row in the cytosine profiles file. The inputs of the <code> test_m
 3. <code> -on, --organism_name: sample name, for saving the files</code>
 
 The output is a text file containing a binary vector saved in <code> ./output/ </code> folder.
+
+A sample code to run <code> test_methprofile.py </code> on sample data:
+
+<code>python test_methprofile.py -p ./sample/sample_meth_profile_test.txt -mdl ./models/sample_organismCG_methprofile.mdl</code>
+
+### Methylation-profile + Sequence based prediction
+
+Another option for cytosine methylation prediction is to use both neighboring cytosines methylation levels along with sequence and annotations. For this we developed two seperate modules to train and test a model based on this input set. To train a module using bothe methylation profiles and sequence based features you can use <code>train_combo.py</code>. Module options:
+
+1. <code> -m, --methylation_file: methylation file address, required</code>
+2. <code> -g, --genome_assembly_file: genome sequence file address, must be in fasta format, required</code>
+3. <code> -c, --context: context, required</code>
+4. <code> -ga, --gene_file: gene annotation file address</code>
+5. <code> -ra, --repeat_file: repeat annotation file address</code>
+6. <code> -iga, --include_gene: does the predictor include the gene annotation in the input? True/False</code>
+7. <code> -ira, --include_repeat: does the predictor include the repeat annotation in the input? True/False</code>
+8. <code> -tr, --train_size: training dataset size, number of inputs for training</code>
+9. <code> -ct, --coverage_threshold: minimum number of reads for including a cytosine in the training/testing dataset</code>
+10. <code> -on, --organism_name: sample name, for saving the files</code>
+11. <code> -mcs, --memory_chunk_size: number of inputs in each memory load</code>
+
+It will train a model and save it to <code>models</code> folder. 
+
+A sample code to run this module on the sample date:
+
+<code>python train_combo.py -m ./sample/sample_methylations_train.txt -g ./sample/sample_seq.fasta -ga ./sample/sample_gene_annotation.txt -ra ./sample/sample_repeat_annotation.txt -c CG</code>
+
+To test the model and predict predict unkonwn cytosine methylation statuses based on methylation-profile and sequence based features you can use <code>test_combo.py</code> module. Module options:
+
+1. <code> -m, --methylation_file: methylation file address, required</code>
+2. <code> -mdl, --model_address: trained model address, required</code>
+3. <code> -g, --genome_assembly_file: genome sequence file address, must be in fasta format, required</code>
+4. <code> -p, --prfiles_address: address to the file containing the cytosine profiles. a tab separated file, each row is the methylation level of neighboring Cytosines, required</code>
+5. <code> -ga, --gene_file: gene annotation file address</code>
+6. <code> -ra, --repeat_file: repeat annotation file address</code>
+7. <code> -iga, --include_gene: does the predictor include the gene annotation in the input? True/False</code>
+8. <code> -ira, --include_repeat: does the predictor include the repeat annotation in the input? True/False</code>
+9. <code> -on, --organism_name: sample name, for saving the files</code>
+
+A sample code to use this test module on the sample data:
+
+<code>python test_combo.py -p ./sample/sample_meth_profile_test.txt -mdl ./models/sample_organismCG_combo.mdl -m ./sample/sample_methylations_test.txt -g ./sample/sample_seq.fasta -ga ./sample/sample_gene_annotation.txt -ra ./sample/sample_repeat_annotation.txt</code>
+
+And the predicted results will be saved on <code>./output</code> folder
+
+
 
 ### Motif Finding
 
