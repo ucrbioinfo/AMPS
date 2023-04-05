@@ -19,10 +19,10 @@ parser.add_argument('-on', '--organism_name', help='Organism name, for saving th
 
 args = parser.parse_args()
 
-args = argparse.Namespace()
-args.prfiles_address = './sample/sample_meth_profile_test.txt'
-args.model_address = './models/sample_organismCG_methprofile.mdl'
-args.organism_name = 'sample_organism'
+# args = argparse.Namespace()
+# args.prfiles_address = './sample/sample_meth_profile_test.txt'
+# args.model_address = './models/sample_organismCG_methprofile.mdl'
+# args.organism_name = 'sample_organism'
 
 
 model = keras.models.load_model(args.model_address)

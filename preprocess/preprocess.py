@@ -188,7 +188,6 @@ def methylations_sampler(methylated_size, unmethylated_size):
     return shuffled_m, shuffled_um
 
 def seperate_methylations(organism_name, methylations, test_ratio = 0.1, from_file=False):
-
     fn_train = './dump_files/'+organism_name+'_methylations_train.csv'
     fn_test = './dump_files/'+organism_name+'_methylations_test.csv'
     if from_file and path.exists(fn_test) and path.exists(fn_train):

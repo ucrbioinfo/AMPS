@@ -43,7 +43,7 @@ print('genome sequence assembly is loaded...')
 methylations, num_to_chr_dic = data_reader.get_methylations(args.methylation_file,  -1, '', contain_targets=False)
 annot_seqs_onehot = []
 if include_gene:
-    annot_df = data_reader.read_annot(args.annotation_file)
+    annot_df = data_reader.read_annot(args.gene_file)
     annot_tag = ''
     annot_types = preprocess.get_annot_types(annot_df)
     print('list of annotated functional elements:' + str(annot_types))
@@ -67,7 +67,7 @@ if include_repeat:
     annot_seqs_onehot.append(annot_str)
 
 #methylations['mlevel'] = methylations['mlevel'].fillna(0)
-test_profiles, _ = pg.get_profiles(methylations, range(len(methylations)), sequences_onehot, annot_seqs_onehot, num_to_chr_dic, window_size=args.window_size, contain_targets=False)
+test_profiles, _ = pg.get_profiles(methylations, range(len(methylations)), sequences_onehot, annot_seqs_onehot, num_to_chr_dic, window_size=3200, contain_targets=False)
 x_test, _ = pg.data_preprocess(test_profiles, None, include_annot=include_gene | include_repeat, contain_targets=False)
 
 y_pred = model.predict(x_test)

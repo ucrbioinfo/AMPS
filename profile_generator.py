@@ -23,10 +23,10 @@ def get_profiles(methylations, sample_set, sequences_onehot, annot_seqs_onehot, 
         chro = num_to_chr_dic[row['chr']]
         if contain_targets:
             targets[index] = round(float(row['mlevel']))
-        #try:
-        profiles[index] = get_window_seqgene_df(sequences_onehot, annot_seqs_onehot, chro, center, window_size)
-        #except:
-        #    boundary_cytosines += 1
+        try:
+            profiles[index] = get_window_seqgene_df(sequences_onehot, annot_seqs_onehot, chro, center, window_size)
+        except:
+            boundary_cytosines += 1
         if count % int(total/10) == 0:
             now = datetime.now()
             seconds = (now - start).seconds
